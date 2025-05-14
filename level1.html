@@ -141,11 +141,11 @@
 
     // 初始化 Sortable 拖拽
     Sortable.create(container, {
-      animation: 150,
-      onEnd: () => {
-        checkWin();
-      }
-    });
+  animation: 150,
+  onEnd: () => {
+    setTimeout(checkWin, 50);
+  }
+});
   }
 
   function checkWin() {
@@ -157,7 +157,6 @@
     localStorage.setItem("level1Cleared", "true"); // 根据关卡更改
   }
 }
-
 
   initPuzzle();
 </script>
