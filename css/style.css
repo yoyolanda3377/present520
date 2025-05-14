@@ -99,12 +99,13 @@ h1 {
 }
 
 .slider-track img {
-  width: 200px;
+  width: 150px;
   height: 150px;
   object-fit: cover;
   margin: 0 10px;
   border-radius: 8px;
 }
+
 
 @keyframes scrollLeft {
   0% {
