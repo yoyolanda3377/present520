@@ -1,0 +1,55 @@
+
+body {
+    font-family: "Helvetica Neue", sans-serif;
+    background-color: #fff0f5;
+    text-align: center;
+    padding: 2em;
+}
+h1 {
+    color: #ff5c8a;
+}
+.start-btn {
+    display: inline-block;
+    padding: 1em 2em;
+    background-color: #ff8fb2;
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    margin-top: 2em;
+    font-size: 1.2em;
+}
+#puzzle {
+    width: 300px;
+    height: 300px;
+    margin: 2em auto;
+    display: flex;
+    flex-wrap: wrap;
+    border: 2px solid #ffb6c1;
+}
+.tile {
+    width: 100px;
+    height: 100px;
+    background-size: 300px 300px;
+    box-sizing: border-box;
+    border: 1px solid #fff;
+}
+#message {
+    display: none;
+    margin-top: 2em;
+    font-size: 1.2em;
+    color: #cc3366;
+}
+.love-toggle {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ffe0eb;
+  border: none;
+  border-radius: 8px;
+  color: #cc3366;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.love-toggle:hover {
+  background-color: #ffccdd;
+}

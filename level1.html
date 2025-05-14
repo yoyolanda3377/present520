@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>第一关：初吻的灯光</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Helvetica Neue', sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #ff6699;
+    }
+    #puzzle {
+      width: 600px;
+      height: 600px;
+      margin: 20px auto;
+      display: flex;
+      flex-wrap: wrap;
+      border: 4px solid #ffb6c1;
+    }
+    .tile {
+      width: 200px;
+      height: 200px;
+      box-sizing: border-box;
+      border: 1px solid #fff;
+      background-image: url('images/level1.jpg');
+      background-size: 600px 600px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 99;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      text-align: left;
+      color: #cc3366;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      font-size: 1rem;
+      position: relative;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 1.4rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #333;
+    }
+    .next-btn {
+      display: block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #ff99bb;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    .next-btn:hover {
+      background-color: #ff6699;
+    }
+    @media (max-width: 640px) {
+      #puzzle {
+        width: 300px;
+        height: 300px;
+      }
+      .tile {
+        width: 100px;
+        height: 100px;
+        background-size: 300px 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>第一关：初吻的灯光</h1>
+  <div id="puzzle"></div>
+<button id="showLoveBtn" class="love-toggle" style="display:none;" onclick="document.getElementById('loveModal').style.display='block'">💌 情书</button>
+
+  <div id="loveModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="document.getElementById('loveModal').style.display='none'">&times;</span>
+      那是我们第一次接吻，房间漆黑，灯光在身边闪烁，而你就在我眼前。<br><br>
+      我什么也看不见，却在那一刻，把你记得特别清楚。<br><br>
+      我的心跳和灯一起亮起来了——从此之后，没再灭下去。
+      <a href="level2.html" class="next-btn">进入第二关 →</a>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById("puzzle");
+    const modal = document.getElementById("loveModal");
+    const size = 3;
+    const total = size * size;
+    const order = [...Array(total).keys()];
+    const correct = [...order];
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    function createTile(index) {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      tile.draggable = true;
+      tile.dataset.index = index;
+      const row = Math.floor(index / size);
+      const col = index % size;
+      tile.style.backgroundPosition = `-${col * 200}px -${row * 200}px`;
+      return tile;
+    }
+
+    function initPuzzle() {
+      shuffle(order);
+      order.forEach(i => container.appendChild(createTile(i)));
+    }
+
+    let dragged;
+
+    container.addEventListener("dragstart", e => {
+      if (e.target.classList.contains("tile")) {
+        dragged = e.target;
+      }
+    });
+
+    container.addEventListener("dragover", e => e.preventDefault());
+
+    container.addEventListener("drop", e => {
+      if (e.target.classList.contains("tile") && e.target !== dragged) {
+        const from = [...container.children].indexOf(dragged);
+        const to = [...container.children].indexOf(e.target);
+        container.insertBefore(dragged, container.children[to]);
+        container.insertBefore(e.target, container.children[from]);
+        checkWin();
+      }
+    });
+
+    function checkWin() {
+  const tiles = [...container.children];
+  const current = tiles.map(t => parseInt(t.dataset.index));
+  if (current.every((v, i) => v === correct[i])) {
+    modal.style.display = "block";
+    document.getElementById("showLoveBtn").style.display = "inline-block"; 
+  }
+}
+
+    initPuzzle();
+  </script>
+</body>
+</html>
