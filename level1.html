@@ -91,6 +91,7 @@
       }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
   <h1>第一关：初吻的灯光</h1>
@@ -107,67 +108,58 @@
     </div>
   </div>
 
-  <script>
-    const container = document.getElementById("puzzle");
-    const modal = document.getElementById("loveModal");
-    const size = 3;
-    const total = size * size;
-    const order = [...Array(total).keys()];
-    const correct = [...order];
+<script>
+  const container = document.getElementById("puzzle");
+  const modal = document.getElementById("loveModal");
+  const showBtn = document.getElementById("showLoveBtn");
+  const size = 3;
+  const TILE_SIZE = 200;
+  const total = size * size;
+  const order = [...Array(total).keys()];
+  const correct = [...order];
 
-    function shuffle(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+  }
 
-    function createTile(index) {
-      const tile = document.createElement("div");
-      tile.className = "tile";
-      tile.draggable = true;
-      tile.dataset.index = index;
-      const row = Math.floor(index / size);
-      const col = index % size;
-      tile.style.backgroundPosition = `-${col * 200}px -${row * 200}px`;
-      return tile;
-    }
+  function createTile(index) {
+    const tile = document.createElement("div");
+    tile.className = "tile";
+    tile.dataset.index = index;
+    const row = Math.floor(index / size);
+    const col = index % size;
+    tile.style.backgroundPosition = `-${col * TILE_SIZE}px -${row * TILE_SIZE}px`;
+    return tile;
+  }
 
-    function initPuzzle() {
-      shuffle(order);
-      order.forEach(i => container.appendChild(createTile(i)));
-    }
+  function initPuzzle() {
+    shuffle(order);
+    order.forEach(i => container.appendChild(createTile(i)));
 
-    let dragged;
-
-    container.addEventListener("dragstart", e => {
-      if (e.target.classList.contains("tile")) {
-        dragged = e.target;
-      }
-    });
-
-    container.addEventListener("dragover", e => e.preventDefault());
-
-    container.addEventListener("drop", e => {
-      if (e.target.classList.contains("tile") && e.target !== dragged) {
-        const from = [...container.children].indexOf(dragged);
-        const to = [...container.children].indexOf(e.target);
-        container.insertBefore(dragged, container.children[to]);
-        container.insertBefore(e.target, container.children[from]);
+    // 初始化 Sortable 拖拽
+    Sortable.create(container, {
+      animation: 150,
+      onEnd: () => {
         checkWin();
       }
     });
-
-    function checkWin() {
-  const tiles = [...container.children];
-  const current = tiles.map(t => parseInt(t.dataset.index));
-  if (current.every((v, i) => v === correct[i])) {
-    modal.style.display = "block";
-    document.getElementById("showLoveBtn").style.display = "inline-block"; 
   }
-}
 
-    initPuzzle();
-  </script>
+  function checkWin() {
+    const tiles = [...container.children];
+    const current = tiles.map(t => parseInt(t.dataset.index));
+    if (current.every((v, i) => v === correct[i])) {
+      modal.style.display = "block";
+      if (showBtn) showBtn.style.display = "inline-block";
+      localStorage.setItem("level1Cleared", "true");
+    }
+  }
+
+  initPuzzle();
+</script>
+
 </body>
 </html>
