@@ -149,14 +149,15 @@
   }
 
   function checkWin() {
-    const tiles = [...container.children];
-    const current = tiles.map(t => parseInt(t.dataset.index));
-    if (current.every((v, i) => v === correct[i])) {
-      modal.style.display = "block";
-      if (showBtn) showBtn.style.display = "inline-block";
-      localStorage.setItem("level1Cleared", "true");
-    }
+  const tiles = [...container.children];
+  const current = tiles.map(t => parseInt(t.dataset.index));
+  if (current.every((v, i) => v === correct[i])) {
+    modal.style.display = "block";
+    if (showBtn) showBtn.style.display = "inline-block";
+    localStorage.setItem("level1Cleared", "true"); // 根据关卡更改
   }
+}
+
 
   initPuzzle();
 </script>
