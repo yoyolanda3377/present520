@@ -53,3 +53,64 @@ h1 {
 .love-toggle:hover {
   background-color: #ffccdd;
 }
+.check-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #99e699;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #2d662d;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.check-button:hover {
+  background-color: #66cc66;
+}
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 1.2rem;
+  color: #cc3366;
+  text-decoration: none;
+  background: #fff0f5;
+  padding: 6px 12px;
+  border: 2px solid #ff99bb;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+.back-button:hover {
+  background-color: #ffe0eb;
+}
+.slider-container {
+  overflow: hidden;
+  width: 100%;
+  margin: 30px auto;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255, 153, 187, 0.3);
+}
+
+.slider-track {
+  display: flex;
+  width: calc(200px * 8); /* 图像数量×宽度 */
+  animation: scrollLeft 30s linear infinite;
+}
+
+.slider-track img {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+  margin: 0 10px;
+  border-radius: 8px;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

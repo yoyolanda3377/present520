@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -79,6 +80,20 @@
     .next-btn:hover {
       background-color: #ff6699;
     }
+    .check-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #99e699;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: #2d662d;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .check-button:hover {
+      background-color: #66cc66;
+    }
     @media (max-width: 640px) {
       #puzzle {
         width: 300px;
@@ -94,11 +109,10 @@
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
-  <a href="index.html" class="back-button">← 返回主页</a>
   <h1>第一关：初吻的灯光</h1>
   <div id="puzzle"></div>
   <button id="checkBtn" class="check-button">确认拼好啦！</button>
-<button id="showLoveBtn" class="love-toggle" style="display:none;" onclick="document.getElementById('loveModal').style.display='block'">💌 情书</button>
+  <button id="showLoveBtn" class="love-toggle" style="display:none;" onclick="document.getElementById('loveModal').style.display='block'">💌 情书</button>
 
   <div id="loveModal" class="modal">
     <div class="modal-content">
@@ -127,33 +141,27 @@
   }
 
   function createTile(index) {
-  const tile = document.createElement("div");
-  tile.className = "tile";
-  tile.setAttribute("data-id", index);  // ✅ 关键点！
-  tile.dataset.index = index;
-  const row = Math.floor(index / size);
-  const col = index % size;
-  tile.style.backgroundPosition = `-${col * TILE_SIZE}px -${row * TILE_SIZE}px`;
-  return tile;
-}
-
-
+    const tile = document.createElement("div");
+    tile.className = "tile";
+    tile.setAttribute("data-id", index);
+    const row = Math.floor(index / size);
+    const col = index % size;
+    tile.style.backgroundPosition = `-${col * TILE_SIZE}px -${row * TILE_SIZE}px`;
+    return tile;
+  }
 
   function checkWin() {
-  const current = Sortable.get(container).toArray(); // 得到 tile 的 DOM 顺序（以 id 为准）
-  const isCorrect = current.every((v, i) => parseInt(v) === i);
+    const current = Sortable.get(container).toArray();
+    const isCorrect = current.every((v, i) => parseInt(v) === i);
 
-  if (isCorrect) {
-    modal.style.display = "block";
-    if (showBtn) showBtn.style.display = "inline-block";
-    localStorage.setItem("level1Cleared", "true");
-  } else {
-    alert("还没拼对哦，再检查一下吧！");
+    if (isCorrect) {
+      modal.style.display = "block";
+      if (showBtn) showBtn.style.display = "inline-block";
+      localStorage.setItem("level1Cleared", "true");
+    } else {
+      alert("还没拼对哦，再检查一下吧！");
+    }
   }
-}
-
-
-
 
   function initPuzzle() {
     shuffle(order);
@@ -168,6 +176,5 @@
 
   initPuzzle();
 </script>
-
 </body>
 </html>
