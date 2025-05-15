@@ -1,0 +1,23 @@
+
+<!-- 食用指南 -->
+<div style="margin-top: 40px;">
+  <button onclick="toggleGuide()" style="background-color: #ffe0eb; color: #cc3366; border: none; padding: 10px 20px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+    💡 食用指南（点击展开 / 收起）
+  </button>
+  <div id="guide-content" style="display: none; margin-top: 15px; padding: 15px; background: #fffafc; border-radius: 10px; font-size: 1rem; color: #333; text-align: left; line-height: 1.6;">
+    <ul style="padding-left: 1em; margin: 0;">
+      <li>本网页为 520 特供情侣互动礼物，请温柔点开。</li>
+      <li>共设 4 关小游戏，需逐关解锁，按顺序游玩更有仪式感。</li>
+      <li>每一关通过后，会有一封专属情书 💌</li>
+      <li>推荐使用手机横屏或电脑浏览，效果更佳。</li>
+      <li>进度记录在浏览器中，刷新也不会丢失。</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function toggleGuide() {
+    const guide = document.getElementById("guide-content");
+    guide.style.display = guide.style.display === "none" ? "block" : "none";
+  }
+</script>
