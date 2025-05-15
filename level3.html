@@ -3,171 +3,166 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>第三关：夜色里的摩天轮</title>
+  <title>第三关：默契测试升级版</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background: #fff0f5;
       font-family: 'Helvetica Neue', sans-serif;
-      text-align: center;
+      background-color: #fff0f5;
+      color: #333;
       padding: 20px;
+      text-align: center;
     }
     h1 {
       color: #ff6699;
     }
-    #puzzle {
-      width: 600px;
-      height: 600px;
-      margin: 20px auto;
-      display: flex;
-      flex-wrap: wrap;
-      border: 4px solid #ffb6c1;
-    }
-    .tile {
-      width: 150px;
-      height: 150px;
-      box-sizing: border-box;
-      border: 1px solid #fff;
-      background-image: url('images/level3.jpg');
-      background-size: 600px 600px;
-    }
-    .modal {
+    .question {
       display: none;
-      position: fixed;
-      z-index: 99;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.5);
+      margin-top: 30px;
     }
-    .modal-content {
-      background-color: #fff;
-      margin: 15% auto;
-      padding: 20px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 400px;
-      text-align: left;
+    .question.active {
+      display: block;
+    }
+    .question p {
+      font-size: 1.2rem;
+      color: #ff6699;
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin: 10px 0;
+      font-size: 1.1rem;
       color: #cc3366;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      font-size: 1rem;
-    }
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 1.4rem;
-      font-weight: bold;
       cursor: pointer;
     }
-    .close:hover {
-      color: #333;
-    }
     .next-btn {
-      display: block;
-      margin-top: 20px;
-      padding: 10px 20px;
+      margin-top: 15px;
+      padding: 8px 20px;
       background-color: #ff99bb;
       color: white;
-      text-align: center;
-      text-decoration: none;
+      border: none;
       border-radius: 8px;
       font-size: 1rem;
-      transition: background-color 0.3s ease;
+      cursor: pointer;
     }
-    .next-btn:hover {
-      background-color: #ff6699;
+    #resultModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
     }
-    @media (max-width: 640px) {
-      #puzzle {
-        width: 300px;
-        height: 300px;
-      }
-      .tile {
-        width: 75px;
-        height: 75px;
-        background-size: 300px 300px;
-      }
+    .modal-content {
+      background: #fff0f5;
+      margin: 20% auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 12px;
+      color: #cc3366;
+      text-align: left;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .to-next {
+      display: block;
+      margin-top: 20px;
+      background-color: #ff99bb;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
   <button class="next-btn" onclick="window.location.href='index.html'">返回主页 🏠</button>
-  <h1>第三封：夜色里的摩天轮</h1>
-  <div id="puzzle"></div>
-<button id="showLoveBtn" class="love-toggle" style="display:none;" onclick="document.getElementById('loveModal').style.display='block'">💌 情书</button>
-  <div id="loveModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="document.getElementById('loveModal').style.display='none'">&times;</span>
-      那天在读卖乐园，灯光特别温柔，风也轻轻地吹着我们肩头。<br><br>
-      我们一起坐了摩天轮，你靠在我肩上，我唱了好多首儿歌。<br><br>
-      世界好像暂停了，只有我们在那一格格夜色里慢慢升高，慢慢相爱。
-      <a href="level4.html" class="next-btn">下一封 →</a>
+  <h1>第三封：定番究极二选一 💞</h1>
+  <div id="quiz"></div>
+
+  <div id="resultModal">
+    <div class="modal-content" id="resultText">
     </div>
   </div>
 
-  <script>
-    const container = document.getElementById("puzzle");
-    const modal = document.getElementById("loveModal");
-    const size = 4;
-    const total = size * size;
-    const order = [...Array(total).keys()];
-    const correct = [...order];
+<script>
+const questions = [
+  { q: "1. 周末你更倾向于？", options: ["😴 睡懒觉", "🍳 早起去吃早餐"], correct: 0 },
+  { q: "2. 晚餐你想吃？", options: ["🔥 火锅", "🍖 烤肉"], correct: 1 },
+  { q: "3. 出门你会穿？", options: ["👟 舒适的运动装", "💄 精致的约会装"], correct: 1 },
+  { q: "4. 看电影你会选？", options: ["💥 动作片", "💗 爱情片"], correct: 1 },
+  { q: "5. 冬天你更想？", options: ["🧣 窝家取暖", "⛷️ 出门玩雪"], correct: 0 },
+  { q: "6. 想收到的表达是？", options: ["🎁 惊喜礼物", "🤗 大大拥抱"], correct: 1 },
+  { q: "7. 下雨天你更喜欢？", options: ["☔ 撑伞漫步", "📺 宅家追剧"], correct: 1 },
+  { q: "8. 你更喜欢？", options: ["✋ 牵手", "🤍 kiss"], correct: 1 },
+  { q: "9. 被吵醒你能忍受？", options: ["🛏️ 被抢被子", "😴 打呼吵醒"], correct: 0 },
+  { q: "10. 没哪个你更焦虑？", options: ["📱 没手机", "🍬 没零食"], correct: 0 },
+];
 
-    function shuffle(arr) {{
-      for (let i = arr.length - 1; i > 0; i--) {{
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }}
-    }}
+let current = 0;
+let score = 0;
 
-    function createTile(index) {{
-      const tile = document.createElement("div");
-      tile.className = "tile";
-      tile.draggable = true;
-      tile.dataset.index = index;
-      const row = Math.floor(index / size);
-      const col = index % size;
-      tile.style.backgroundPosition = `-${col * 150}px -${row * 150}px`;
-      return tile;
-    }}
+const quizContainer = document.getElementById("quiz");
 
-    function initPuzzle() {{
-      shuffle(order);
-      order.forEach(i => container.appendChild(createTile(i)));
-    }}
-
-    let dragged;
-
-    container.addEventListener("dragstart", e => {{
-      if (e.target.classList.contains("tile")) {{
-        dragged = e.target;
-      }}
-    }});
-
-    container.addEventListener("dragover", e => e.preventDefault());
-
-    container.addEventListener("drop", e => {{
-      if (e.target.classList.contains("tile") && e.target !== dragged) {{
-        const from = [...container.children].indexOf(dragged);
-        const to = [...container.children].indexOf(e.target);
-        container.insertBefore(dragged, container.children[to]);
-        container.insertBefore(e.target, container.children[from]);
-        checkWin();
-      }}
-    }});
-
-    function checkWin() {
-  const tiles = [...container.children];
-  const current = tiles.map(t => parseInt(t.dataset.index));
-  if (current.every((v, i) => v === correct[i])) {
-    modal.style.display = "block";
-    document.getElementById("showLoveBtn").style.display = "inline-block";
-  }
+function renderQuestion() {
+  quizContainer.innerHTML = "";
+  const q = questions[current];
+  const div = document.createElement("div");
+  div.className = "question active";
+  div.innerHTML = `<p>${q.q}</p>`;
+  q.options.forEach((opt, i) => {
+    const label = document.createElement("label");
+    label.innerHTML = `<input type="radio" name="q${current}" value="${i}"> ${opt}`;
+    label.querySelector("input").addEventListener("change", () => {
+      document.getElementById("nextBtn").disabled = false;
+      label.parentNode.querySelectorAll("label").forEach(l => l.style.background = "");
+      label.style.background = "#ffeef3";
+      label.style.borderRadius = "6px";
+    });
+    div.appendChild(label);
+  });
+  const nextBtn = document.createElement("button");
+  nextBtn.id = "nextBtn";
+  nextBtn.textContent = "下一题 →";
+  nextBtn.disabled = true;
+  nextBtn.className = "next-btn";
+  nextBtn.onclick = () => {
+    const selected = div.querySelector("input[type='radio']:checked");
+    if (selected && parseInt(selected.value) === q.correct) score++;
+    current++;
+    if (current < questions.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  };
+  div.appendChild(nextBtn);
+  quizContainer.appendChild(div);
 }
 
-    initPuzzle();
-  </script>
+function showResult() {
+  const modal = document.getElementById("resultModal");
+  const resultText = document.getElementById("resultText");
+  let feedback = "";
+
+  if (score >= 9) {
+    feedback = "💯 你超懂我！我们是心有灵犀的完美拍档 💘";
+  } else if (score >= 6) {
+    feedback = "😊 很默契了诶！小小细节也都记得住～";
+  } else if (score >= 3) {
+    feedback = "😳 有点出入…不过你认真答题的样子我也喜欢！";
+  } else {
+    feedback = "😂 哈？你是我男朋友吗（开玩笑的啦）";
+  }
+
+  resultText.innerHTML = `<p>默契得分：${score} / ${questions.length}</p><p>${feedback}</p>
+    <p style="margin-top: 10px;">你认真作答的样子，已经是我的满分答案。</p>
+    <a href="level4.html" class="to-next">进入最终关卡 →</a>`;
+  modal.style.display = "block";
+}
+
+renderQuestion();
+</script>
 </body>
 </html>
