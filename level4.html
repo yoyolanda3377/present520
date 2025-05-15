@@ -3,171 +3,157 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>第四关：双子塔下的拥抱</title>
+  <title>第四关：厦门一日游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #fff0f5;
       font-family: 'Helvetica Neue', sans-serif;
-      text-align: center;
+      color: white;
+      background-color: black;
+      overflow: hidden;
+      position: relative;
+      height: 100vh;
+    }
+    #background {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: auto;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      transition: opacity 1s ease;
+    }
+    #dialogue-box {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.7);
       padding: 20px;
     }
-    h1 {
-      color: #ff6699;
+    #text {
+      font-size: 1.2rem;
+      line-height: 1.6;
     }
-    #puzzle {
-      width: 600px;
-      height: 600px;
-      margin: 20px auto;
-      display: flex;
-      flex-wrap: wrap;
-      border: 4px solid #ffb6c1;
+    .options {
+      margin-top: 10px;
     }
-    .tile {
-      width: 150px;
-      height: 150px;
-      box-sizing: border-box;
-      border: 1px solid #fff;
-      background-image: url('images/level4.jpg');
-      background-size: 600px 600px;
+    .option-btn {
+      background: #ff99bb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 1rem;
+      cursor: pointer;
     }
-    .modal {
+    .option-btn:hover {
+      background-color: #ff6699;
+    }
+    #letter {
       display: none;
-      position: fixed;
-      z-index: 99;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.5);
-    }
-    .modal-content {
-      background-color: #fff;
-      margin: 15% auto;
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff0f5;
+      color: #cc3366;
       padding: 20px;
       border-radius: 12px;
       width: 90%;
       max-width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
       text-align: left;
-      color: #cc3366;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      font-size: 1rem;
     }
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 1.4rem;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .close:hover {
-      color: #333;
-    }
-    .love-toggle {
-      display: none;
+    #letter-close {
       margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #ffe0eb;
+      background-color: #ff99bb;
+      color: white;
+      padding: 10px;
       border: none;
       border-radius: 8px;
-      color: #cc3366;
-      font-size: 1rem;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .love-toggle:hover {
-      background-color: #ffccdd;
-    }
-    @media (max-width: 640px) {
-      #puzzle {
-        width: 300px;
-        height: 300px;
-      }
-      .tile {
-        width: 75px;
-        height: 75px;
-        background-size: 300px 300px;
-      }
     }
   </style>
 </head>
 <body>
-  <a href="index.html" class="back-button">← 返回主页</a>
-  <h1>第四封：双子塔下的拥抱</h1>
-  <div id="puzzle"></div>
-  <button id="showLoveBtn" class="love-toggle" onclick="document.getElementById('loveModal').style.display='block'">💌 情书</button>
-  <div id="loveModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="document.getElementById('loveModal').style.display='none'">&times;</span>
-      那晚在双子塔前，你搂着我，我贴着你。<br><br>
-      吹着厦门的晚风，身边有我最爱的人。<br><br>
-      城市那么亮，我却只看得见你肩膀上的安全感。
+  <button class="next-btn" onclick="window.location.href='index.html'">返回主页 🏠</button>
+  <img id="background" src="images/xiamen1.jpg" alt="初始背景">
+
+  <div id="dialogue-box">
+    <div id="text">鼓浪屿我们慢慢走，中山路我们疯狂吃，骑车穿过闹市在演武大桥看夕阳——厦门一天的风吹过我整颗心。</div>
+    <div class="options" id="options">
+      <button class="option-btn" onclick="choose(0)">牵手沿海边散步的鼓浪屿浪漫吧？</button>
+      <button class="option-btn" onclick="choose(1)">我们在厦大门口装学生情侣、骑单车穿过整座城，是不是太会了？</button>
+      <button class="option-btn" onclick="choose(2)">我饿得像小猫一样的时候是不是有点闹腾？</button>
     </div>
   </div>
 
+  <div id="letter">
+    <p>鼓浪屿的风、中山路的味道、演武桥的夕阳……<br>
+我都以为自己记得的是风景，<br>
+结果发现，最清楚的记忆，是你回头笑的那一瞬。<br>
+那天我吃很饱，走很累，却觉得我真的好爱你。
+
+</p>
+    <button id="letter-close" onclick="window.location.href='index.html'">返回主页</button>
+  </div>
+
   <script>
-    const container = document.getElementById("puzzle");
-    const modal = document.getElementById("loveModal");
-    const showBtn = document.getElementById("showLoveBtn");
-    const size = 4;
-    const total = size * size;
-    const order = [...Array(total).keys()];
-    const correct = [...order];
+    const bg = document.getElementById("background");
+    const dialogue = document.getElementById("text");
+    const options = document.getElementById("options");
+    const letter = document.getElementById("letter");
 
-    function shuffle(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+    const branches = [
+      {
+        img: "images/xiamen2.jpg",
+        lines: [
+          "你笑得很无辜，但手心都快冒烟了，别装了。",
+          "你：我这是体温高，我没心虚。",
+          "我：行吧，是我想牵你，好感度+10，真诚永远加分。"
+        ]
+      },
+      {
+        img: "images/xiamen3.jpg",
+        lines: [
+          "你： 你戴着墨镜，我穿得像要去考四六级，我们站在校门口一脸“在读”的样子。",
+          "我：你穿得乖乖的，我一看就想配个格子衬衫走你身边当工具人男友。",
+          "你： 后来骑车穿城那段，我都觉得我们像是校园剧里刚脱团的主角，风也给我们让路。"
+        ]
+      },
+      {
+        img: "images/xiamen4.jpg",
+        lines: [
+          "我：你饿的时候真的很像一只小猫，眼睛瞪大大还皱眉。",
+          "你：我饿得快生气了你还慢悠悠挑哪家不踩雷。",
+          "我：但你闹完后吃得特别乖，像只被喂饱的猫。"
+        ]
       }
+    ];
+
+    let step = 0;
+    let chosen = 0;
+
+    function choose(index) {
+      chosen = index;
+      options.style.display = "none";
+      bg.src = branches[index].img;
+      showNextLine();
     }
 
-    function createTile(index) {
-      const tile = document.createElement("div");
-      tile.className = "tile";
-      tile.draggable = true;
-      tile.dataset.index = index;
-      const row = Math.floor(index / size);
-      const col = index % size;
-      tile.style.backgroundPosition = `-${col * 150}px -${row * 150}px`;
-      return tile;
-    }
-
-    function initPuzzle() {
-      shuffle(order);
-      order.forEach(i => container.appendChild(createTile(i)));
-    }
-
-    let dragged;
-
-    container.addEventListener("dragstart", e => {
-      if (e.target.classList.contains("tile")) {
-        dragged = e.target;
-      }
-    });
-
-    container.addEventListener("dragover", e => e.preventDefault());
-
-    container.addEventListener("drop", e => {
-      if (e.target.classList.contains("tile") && e.target !== dragged) {
-        const from = [...container.children].indexOf(dragged);
-        const to = [...container.children].indexOf(e.target);
-        container.insertBefore(dragged, container.children[to]);
-        container.insertBefore(e.target, container.children[from]);
-        checkWin();
-      }
-    });
-
-    function checkWin() {
-      const tiles = [...container.children];
-      const current = tiles.map(t => parseInt(t.dataset.index));
-      if (current.every((v, i) => v === correct[i])) {
-        modal.style.display = "block";
-        showBtn.style.display = "inline-block";
+    function showNextLine() {
+      if (step < branches[chosen].lines.length) {
+        dialogue.innerText = branches[chosen].lines[step];
+        step++;
+        setTimeout(showNextLine, 2200);
+      } else {
+        document.getElementById("dialogue-box").style.display = "none";
+        letter.style.display = "block";
       }
     }
-
-    initPuzzle();
   </script>
 </body>
 </html>
