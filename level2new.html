@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>第二关：记忆翻翻乐</title>
+  <title>第二封：安能辨我是小八</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -14,27 +14,30 @@
     }
     h1 {
       color: #ff6699;
+      margin-bottom: 10px;
     }
     #game-board {
-      width: 100%;
-      max-width: 520px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      justify-content: center;
-    }
-    .card {
-      aspect-ratio: 1 / 1;
-      width: 100%;
-      max-width: 110px;
-      background-color: #ff99bb;
-      border-radius: 8px;
-      cursor: pointer;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.5s;
-    }
+  width: 100%;
+  max-width: 460px; /* 总宽度上限 */
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 每列自适应 */
+  gap: 10px;
+  justify-content: center;
+}
+
+.card {
+  aspect-ratio: 1 / 1; /* 自动保持正方形 */
+  width: 100%;
+  max-width: 100px;   /* 每张卡片最大宽度 */
+  background-color: #ff99bb;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
     .card.flip {
       transform: rotateY(180deg);
     }
@@ -53,37 +56,20 @@
       background-size: cover;
       background-position: center;
     }
-    #loveModal {
-      display: none;
-      position: fixed;
-      z-index: 99;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-    }
-    .modal-content {
-      background-color: #fff;
-      margin: 20% auto;
-      padding: 20px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 400px;
-      text-align: left;
+    #message {
+      margin-top: 20px;
       color: #cc3366;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      font-size: 1rem;
+      font-size: 1.2rem;
+      display: none;
     }
     .next-btn {
-      display: block;
-      margin-top: 20px;
+      margin-top: 15px;
+      display: inline-block;
       padding: 10px 20px;
       background-color: #ff99bb;
       color: white;
-      text-align: center;
-      text-decoration: none;
       border-radius: 8px;
+      text-decoration: none;
       font-size: 1rem;
     }
     .next-btn:hover {
@@ -92,31 +78,25 @@
   </style>
 </head>
 <body>
-  <button class="next-btn" onclick="window.location.href='index.html'">返回主页 🏠</button>
   <h1>第二封：安能辨我是小八</h1>
-  <p>相信宝宝早就记住谁是谁啦</p>
+  <p>翻出两张相同的照片吧 🧠💗</p>
   <div id="game-board"></div>
-
-  <div id="loveModal">
-    <div class="modal-content">
-      <p>宝宝总是记得我说过的话，你说你对我太认真，每句话都忍不住当真。<br>
-可我也是一样的呀，每句你的认真，我都偷偷放进心里。<br>
-我只希望，这种“真心换真心”的认真，永远都不变质。<br>
-想说的情话，每天都在不断更新，<br>因为每一天的你，都值得我重新喜欢一遍。</p>
-      <a href="level3.html" class="next-btn">进入第三关 →</a>
-    </div>
+  <div id="message">
+    你翻出了所有对！好记性！<br>
+    <a href="level3.html" class="next-btn">前往第三关 →</a>
   </div>
 
   <script>
     const board = document.getElementById("game-board");
-    const modal = document.getElementById("loveModal");
+    const message = document.getElementById("message");
 
     const cards = [
-      "images/chiikawa1.jpg", "images/hachi2.jpg", "images/usagi2.jpg",
-      "images/hachi1.jpg", "images/usagi1.jpg", "images/chiikawa2.jpg",
-      "images/chiikawa1.jpg", "images/hachi2.jpg", "images/usagi2.jpg",
-      "images/hachi1.jpg", "images/usagi1.jpg", "images/chiikawa2.jpg"
-    ];
+  "images/mem1.jpg", "images/mem2.jpg", "images/mem3.jpg",
+  "images/mem4.jpg", "images/mem5.jpg", "images/mem6.jpg",
+  "images/mem1.jpg", "images/mem2.jpg", "images/mem3.jpg",
+  "images/mem4.jpg", "images/mem5.jpg", "images/mem6.jpg"
+];
+
 
     let flippedCards = [];
     let lockBoard = false;
@@ -155,7 +135,7 @@
             flippedCards = [];
             lockBoard = false;
             if ([...board.querySelectorAll(".card")].every(c => c.classList.contains("flip"))) {
-              modal.style.display = "block";
+              message.style.display = "block";
             }
           } else {
             setTimeout(() => {
