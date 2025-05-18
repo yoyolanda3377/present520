@@ -61,7 +61,7 @@
     }
     .modal-content {
       background: #fff0f5;
-      margin: 8% auto;
+      margin: 5% auto;
       padding: 20px;
       width: 90%;
       max-width: 400px;
@@ -119,6 +119,10 @@
     .close:hover {
       color: #333;
     }
+#resultText p {
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
 
   </style>
 </head>
@@ -134,21 +138,13 @@
 <div id="loveModal" class="modal">
   <div class="modal-content">
     <span id="closeLoveModal" class="close">&times;</span>
-    <p style="margin-top: 10px;">宝宝，我们其实也有很多不一样的地方：<br>
-    爱好不一样、习惯也不一样，生活的环境不一样，成长的过程也不一样<br>
-    有时我话太多你跟不上，有时你回消息慢得像在加载中🙄<br><br>
-    可就是这样，我发现你开始愿意为了我认真思考要怎么回我一句话，<br>
-    虽然偶尔还是有点“人机”既视感（笑），但已经不是原来的直男宝宝啦～<br><br>
-    大概是世界让我们相遇，然后用最温柔的方式<br>
-    把我变成更像你的我，也把你带进了我的小世界里。💕</p>
+    <div id="resultText"></div> <!-- 用于插入得分 + 情书 -->
+
     <a href="level4.html" class="to-next">下一封 →</a>
   </div>
 </div>
 
-<!-- 游戏结果弹窗 -->
-<div id="resultModal">
-  <div class="modal-content" id="resultText"></div>
-</div>
+
 
 <script>
 const questions = [
@@ -247,7 +243,6 @@ function renderQuestion() {
 }
 
 function showResult() {
-  const modal = document.getElementById("resultModal");
   const resultText = document.getElementById("resultText");
   let feedback = "";
 
@@ -261,11 +256,23 @@ function showResult() {
     feedback = "就地处决！🤬";
   }
 
-  resultText.innerHTML = `<p>默契得分：${score} / ${questions.length}</p><p>${feedback}</p>`;
-  modal.style.display = "block";
+  resultText.innerHTML = `
+    <p><strong>默契得分：</strong>${score} / ${questions.length}</p>
+    <p>${feedback}</p>
+    <p style="margin-top: 10px;">宝宝，我们其实也有很多不一样的地方：<br>
+    爱好不一样、习惯也不一样，生活的环境不一样，成长的过程也不一样<br>
+    有时我话太多你跟不上，有时你回消息慢得像在加载中🙄<br><br>
+    可就是这样，我发现你开始愿意为了我认真思考要怎么回我一句话，<br>
+    虽然偶尔还是有点“人机”既视感（笑），但已经不是原来的直男宝宝啦～<br><br>
+    大概是世界让我们相遇，然后用最温柔的方式<br>
+    把我变成更像你的我，也把你带进了我的小世界里。💕</p>
+  `;
+
+  document.getElementById("loveModal").style.display = "block";
   document.getElementById("showLoveBtn").style.display = "inline-block";
   localStorage.setItem("level3Cleared", "true");
 }
+
 
 renderQuestion();
 if (localStorage.getItem("level3Cleared") === "true") {
