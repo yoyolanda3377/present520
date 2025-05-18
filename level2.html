@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>第二关：记忆翻翻乐</title>
+  <title>第二封：安能辨我是小八</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -63,6 +63,16 @@
       height: 100%;
       background-color: rgba(0,0,0,0.5);
     }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 1.4rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #333;
+    }
     .modal-content {
       background-color: #fff;
       margin: 20% auto;
@@ -94,20 +104,23 @@
 <body>
   <button class="next-btn" onclick="window.location.href='index.html'">返回主页 🏠</button>
   <h1>第二封：安能辨我是小八</h1>
-  <p>相信宝宝早就记住谁是谁啦</p>
+  <p>那年杏花微雨，小八闪亮登场</p>
   <div id="game-board"></div>
-
-  <div id="loveModal">
+<button id="showLoveBtn" class="love-toggle" style="display:none;" onclick="document.getElementById('loveModal').style.display='block'">💌 情书</button>
+  <div id="loveModal" class="modal">
     <div class="modal-content">
-      <p>宝宝总是记得我说过的话，你说你对我太认真，每句话都忍不住当真。<br>
+      <span class="close" onclick="document.getElementById('loveModal').style.display='none'">&times;</span>
+宝宝总是能记得我说过的话，你说你对我太认真，每句话都忍不住当真。<br>
 可我也是一样的呀，每句你的认真，我都偷偷放进心里。<br>
 我只希望，这种“真心换真心”的认真，永远都不变质。<br>
-想说的情话，每天都在不断更新，<br>因为每一天的你，都值得我重新喜欢一遍。</p>
-      <a href="level3.html" class="next-btn">进入第三关 →</a>
+想说的情话，每天都在不断更新，<br>因为每一天的你，都值得我重新喜欢一遍。
+      <a href="level3new.html" class="next-btn">下一封 →</a>
     </div>
   </div>
 
   <script>
+    
+
     const board = document.getElementById("game-board");
     const modal = document.getElementById("loveModal");
 
@@ -155,8 +168,11 @@
             flippedCards = [];
             lockBoard = false;
             if ([...board.querySelectorAll(".card")].every(c => c.classList.contains("flip"))) {
-              modal.style.display = "block";
-            }
+              document.getElementById("loveModal").style.display = "block";
+            document.getElementById("showLoveBtn").style.display = "inline-block";
+            localStorage.setItem("level2Cleared", "true");
+          }
+
           } else {
             setTimeout(() => {
               first.card.classList.remove("flip");
@@ -175,6 +191,11 @@
     cards.forEach(img => {
       board.appendChild(createCard(img));
     });
+    // 页面加载时判断是否已经通关过
+    if (localStorage.getItem("level2Cleared") === "true") {
+      document.getElementById("showLoveBtn").style.display = "inline-block";
+    }
+
   </script>
 </body>
 </html>

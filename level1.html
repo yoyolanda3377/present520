@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>第一关：初吻的灯光</title>
+  <title>第一封：first kiss</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -95,7 +95,7 @@
 </head>
 <body>
   <button class="next-btn" onclick="window.location.href='index.html'">返回主页 🏠</button>
-  <h1>第一封：初吻的灯光</h1>
+  <h1>第一封：first kiss</h1>
   <div id="puzzle"></div>
   <button id="checkBtn" class="check-button">确认拼好啦！</button>
 <button id="showLoveBtn" class="love-toggle" style="display:none;" onclick="document.getElementById('loveModal').style.display='block'">💌 情书</button>
@@ -103,7 +103,7 @@
   <div id="loveModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="document.getElementById('loveModal').style.display='none'">&times;</span>
-      那是我们第一次接吻，房间漆黑，灯光在身边闪烁，而你就在我眼前。<br><br>
+      回想起那天是我们第一次接吻，teamlab的小房间一片漆黑，灯光在身边闪烁，而你就在我眼前。<br><br>
       我什么也看不见，却在那一刻，把你记得特别清楚。<br><br>
       我的心跳和灯一起亮起来了——从此之后，没再灭下去。
       <a href="level2.html" class="next-btn">下一封 →</a>
@@ -129,7 +129,7 @@
   function createTile(index) {
   const tile = document.createElement("div");
   tile.className = "tile";
-  tile.setAttribute("data-id", index);  // ✅ 关键点！
+  tile.setAttribute("data-id", index);  
   tile.dataset.index = index;
   const row = Math.floor(index / size);
   const col = index % size;
