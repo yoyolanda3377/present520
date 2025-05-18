@@ -79,6 +79,22 @@
     .next-btn:hover {
       background-color: #ff6699;
     }
+    .love-toggle {
+  margin: 20px auto;
+  padding: 8px 16px;
+  background-color: #ffb6c1;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+.love-toggle:hover {
+  background-color: #ff80a6;
+}
+
     @media (max-width: 640px) {
       #puzzle {
         width: 300px;
@@ -96,8 +112,9 @@
 <body>
   <button class="next-btn" onclick="window.location.href='index.html'">返回主页 🏠</button>
   <h1>第一封：first kiss</h1>
+   <p>人生是不是总需要一些第一次来点缀呢</p>
   <div id="puzzle"></div>
-  <button id="checkBtn" class="check-button">确认拼好啦！</button>
+  <button id="checkBtn" class="love-toggle">确认拼好啦！</button>
 <button id="showLoveBtn" class="love-toggle" style="display:none;" onclick="document.getElementById('loveModal').style.display='block'">💌 情书</button>
 
   <div id="loveModal" class="modal">
