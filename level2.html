@@ -207,7 +207,7 @@
     cards.forEach(img => {
       board.appendChild(createCard(img));
     });
-    // 页面加载时判断是否已经通关过
+   
     if (localStorage.getItem("level2Cleared") === "true") {
       document.getElementById("showLoveBtn").style.display = "inline-block";
     }

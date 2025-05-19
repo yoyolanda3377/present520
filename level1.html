@@ -157,7 +157,7 @@
 
 
   function checkWin() {
-  const current = Sortable.get(container).toArray(); // 得到 tile 的 DOM 顺序（以 id 为准）
+  const current = Sortable.get(container).toArray(); 
   const isCorrect = current.every((v, i) => parseInt(v) === i);
 
   if (isCorrect) {
