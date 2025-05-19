@@ -88,7 +88,13 @@
   </style>
 </head>
 <body>
-  
+  <div id="lockscreen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#fff0f5; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:999;">
+  <h2 style="color:#cc3366;">🔒 请输入专属密码进入</h2>
+  <input id="passwordInput" type="password" placeholder="输入密码" style="padding:10px; font-size:1rem; border-radius:6px; border:1px solid #ccc;">
+  <button onclick="checkPassword()" style="margin-top:10px; padding:8px 16px; background:#ff99bb; color:white; border:none; border-radius:6px;">进入</button>
+  <p id="errorMsg" style="color:red; display:none; margin-top:10px;">密码错误哦～</p>
+</div>
+
 <!-- 食用指南 -->
 <div style="margin-top: 40px;">
   <button onclick="toggleGuide()" style="background-color: #ffe0eb; color: #cc3366; border: none; padding: 10px 20px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
@@ -106,6 +112,22 @@
 </div>
 
 <script>
+  const correctPassword = "0520"; // 你自己设置的密码
+
+  function checkPassword() {
+    const input = document.getElementById("passwordInput").value;
+    if (input === correctPassword) {
+      document.getElementById("lockscreen").style.display = "none";
+    } else {
+      document.getElementById("errorMsg").style.display = "block";
+    }
+  }
+
+  document.getElementById("passwordInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      checkPassword();
+    }
+  });
   function toggleGuide() {
     const guide = document.getElementById("guide-content");
     guide.style.display = guide.style.display === "none" ? "block" : "none";
